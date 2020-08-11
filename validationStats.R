@@ -1,5 +1,13 @@
+#' Generates 3 Q-Q plots (Gold Standard's, Alternative method's and the difference between the former and latter)
+#' 
+#'  @param my_data A Nx2 dataframe with the obs. of the gold standard and alternative method respectively
+#'  @param goldStd A string corresponding to the Gold Standard's name
+#'  @param altMethod A string corresponding to the alternative method's name
+#'  @example 
+#'  QQPlots(my_data, "Gold Standard", "Alternative Method")
+#'  
 QQPlots <- function(my_data, goldStd, altMethod){
-
+  
   #Q-Q plot of the Gold Standard's measurements
   qqnorm(my_data[[1]], pch = 18, col ='Blue', frame = TRUE, ylab = paste("Sample Quantities: ", goldStd))
   qqline(my_data[[1]], col = "black", lwd = 2)
@@ -15,7 +23,12 @@ QQPlots <- function(my_data, goldStd, altMethod){
 }
 
 
-
+#' Performs the Shapiro Wilk test using the difference between the gold standard and alternative method's values and prints the result.
+#' 
+#'  @param my_data A Nx2 dataframe with the obs. of the gold standard and alternative method respectively
+#'  @example 
+#'  shapiroWilk(my_data)
+#'  
 shapiroWilk <- function(my_data){
   
   dif<- my_data[[1]] - my_data[[2]]
@@ -24,7 +37,16 @@ shapiroWilk <- function(my_data){
 }
 
 
-
+#' Calculates the correlation (spearman) between the gold standard and the alternative method, also plots the paired values against the identity line
+#' 
+#'  @param my_data A Nx2 dataframe with the obs. of the gold standard and alternative method respectively
+#'  @param parameterName A string corresponding to the name of the parameter that is being compared.
+#'  @param goldStd A string corresponding to the Gold Standard's name
+#'  @param altMethod A string corresponding to the alternative method's name
+#'  @return Spearman's correlation between the gold standard and the alternative method.
+#'  @example 
+#'  spearmanCor(my_data, "Parameter", "Gold Standard", "Alternative Method")
+#'  
 spearmanCor <- function(my_data, parameterName, goldStd, altMethod){
   
   correlation <- cor(my_data[1], my_data[2], method = "spearman")
@@ -47,7 +69,14 @@ spearmanCor <- function(my_data, parameterName, goldStd, altMethod){
 }
 
 
-
+#' Performs the Student's t-test of the observations paired to check if they're equivalent and prints the result
+#' 
+#'  @param my_data A Nx2 dataframe with the obs. of the gold standard and alternative method respectively
+#'  @param goldStd A string corresponding to the Gold Standard's name
+#'  @param altMethod A string corresponding to the alternative method's name
+#'  @example 
+#'  pairedtTest(my_data, "Gold Standard", "Alternative Method")
+#'  
 pairedtTest <- function(my_data, goldStd, altMethod){
 
   result <- t.test(my_data[[1]], my_data[[2]], paired = TRUE, alternative = "two.sided")
@@ -56,7 +85,15 @@ pairedtTest <- function(my_data, goldStd, altMethod){
 }
 
 
-
+#' Generates a Bland-Altman plot of the observations
+#' 
+#'  @param my_data A Nx2 dataframe with the obs. of the gold standard and alternative method respectively
+#'  @param parameterName A string corresponding to the name of the parameter that is being compared.
+#'  @param goldStd A string corresponding to the Gold Standard's name
+#'  @param altMethod A string corresponding to the alternative method's name
+#'  @example 
+#'  blandAlt(my_data, "Parameter", "Gold Standard", "Alternative Method")
+#'  
 blandAlt <- function(my_data, parameterName, goldStd, altMethod){
 
   library(BlandAltmanLeh)
